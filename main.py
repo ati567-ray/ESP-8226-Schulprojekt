@@ -49,6 +49,7 @@ class TemperatureStation:
         server.onPath("/", self.web_handler.handle_root)
         server.onPath("/langzeitTemperatur", self.web_handler.handle_langzeit_temperatur)
         server.onPath("/kurzzeitTemperatur", self.web_handler.handle_kurzzeit_temperatur)
+        server.onPath("/xml", self.web_handler.handle_xml)
         # server.onNotFound(self.web_handler.handle_not_found)
     
     def start(self):
