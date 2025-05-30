@@ -7,8 +7,8 @@ class Config:
     LED_PIN = 2
     
     # Dateipfade
-    LANGZEIT_DATEI = "langzeitwerte.json"
-    KURZZEIT_DATEI = "kurzzeitwerte.json"
+    LANGZEIT_DATEI = "data/langzeitwerte.json"
+    KURZZEIT_DATEI = "data/kurzzeitwerte.json"
     
     # Messwert-Limits
     MAX_LANGZEIT_WERTE = 120

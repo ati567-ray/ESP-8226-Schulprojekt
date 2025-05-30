@@ -63,6 +63,38 @@ class WebHandler:
 
             server.err(socket, "500", "Fehler beim Lesen der Messwerte")
     
+    def handle_xml(self, socket, args):
+        """Handler für XML-Temperaturdaten"""
+        try:
+            messwerte = self.data_manager.get_kurzzeit_data()
+            self._send_xml_response(socket, messwerte)
+            self.led_controller.signal_activity()
+        except Exception as e:
+            print("Fehler beim Lesen der Kurzzeit-Temperaturdaten:", e)
+            server.err(socket, "500", "Fehler beim Lesen der Messwerte")
+
+    def _send_xml_response(self, socket, data):
+        """XML-Response senden"""
+        headers = {
+            "Content-Type": "application/xml",
+            "Access-Control-Allow-Origin": "*"
+        }
+
+        xml = self._list_to_xml(data)
+        server.ok(socket, "200", headers, xml)
+        del data
+        gc.collect()
+
+    def _list_to_xml(self, data):
+        """Konvertiert die "data" Liste [zeitpunkt, temperatur] zu XML"""
+        xml = "<temperaturen>"
+        for eintrag in data:
+            zeitpunkt, wert = eintrag
+            xml += f"<eintrag><zeitpunkt>{zeitpunkt}</zeitpunkt><wert>{wert}</wert></eintrag>"
+        xml += "</temperaturen>"
+        return xml
+
+    
     def _send_json_response(self, socket, data):
         """JSON-Response senden"""
         headers = {
