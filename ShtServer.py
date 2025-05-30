@@ -13,7 +13,6 @@ class TemperatureStation:
         self.config = Config()
         self.running = False
         
-        # Komponenten
         self.wifi_manager = None
         self.led_controller = None
         self.data_manager = None
@@ -22,28 +21,23 @@ class TemperatureStation:
     
     def init(self):
         """System initialisieren"""
-        print("Temperatur-Station wird initialisiert...")
+        print("---------------------------- \nTemperatur-Station wird initialisiert...")
         
-        # WiFi-Manager
         self.wifi_manager = WiFiManager(self.config)
         if not self.wifi_manager.connect():
             print("Fehler: WiFi-Verbindung konnte nicht hergestellt werden!")
             return False
         
-        # LED-Controller
         self.led_controller = LEDController(self.config.LED_PIN)
-        self.led_controller.blink(3, 0.2)  # Erfolg signalisieren
+        #Start blinker der LED
+        self.led_controller.blink(3, 0.2)  
         
-        # Daten-Manager
         self.data_manager = DataManager(self.config)
         
-        # Web-Handler
         self.web_handler = WebHandler(self.data_manager, self.led_controller)
         
-        # Webserver konfigurieren
         self._setup_webserver()
         
-        # Watchdog initialisieren
         self.watchdog = SoftwareWatchdog(timeout_ms=self.config.WATCHDOG_TIMEOUT)
         
         print("System erfolgreich initialisiert!")
@@ -69,7 +63,7 @@ class TemperatureStation:
         try:
             self._main_loop()
         except KeyboardInterrupt:
-            print("Station durch Benutzer gestoppt")
+            print("\n!---!Station durch Benutzer gestoppt!---!")
         except Exception as e:
             print(f"Fehler in der Hauptschleife: {e}")
         finally:
@@ -80,23 +74,19 @@ class TemperatureStation:
     def _main_loop(self):
         """Hauptschleife"""
         while self.running:
-            # Watchdog füttern
+            
             self.watchdog.feed()
             
-            # Daten aktualisieren
             if self.data_manager.update():
                 print("Messwerte aktualisiert")
             
-            # Webserver-Requests bearbeiten
             server.handleClient()
             
-            # Watchdog prüfen
+  
             self.watchdog.check()
             
-            # Kurze Pause
             time.sleep(0.1)
-            
-            # Garbage Collection
+        
             gc.collect()
     
     def stop(self):
@@ -108,6 +98,6 @@ class TemperatureStation:
             pass
         
         if self.led_controller:
-            self.led_controller.blink(5, 0.1)  # Stop-Signal
+            self.led_controller.blink(5, 0.1)  
         
-        print("Temperatur-Station gestoppt")
+        print("!---!Temperatur-Station gestoppt!---!")

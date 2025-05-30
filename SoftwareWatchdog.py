@@ -11,6 +11,6 @@ class SoftwareWatchdog:
 
     def check(self):
         if time.ticks_diff(time.ticks_ms(), self.last_feed) > self.timeout:
-            print("Software-Watchdog ausgelöst → Neustart")
+            print("Software-Watchdog ausgelöst -> Neustart")
             machine.reset()
 
