@@ -45,13 +45,21 @@ class TemperatureStation:
     
     def _setup_webserver(self):
         """Webserver-Routen konfigurieren"""
-        server.begin()
+      
+
+      
         server.onPath("/", self.web_handler.handle_root)
-        server.onPath("/langzeitTemperatur_json", self.web_handler.handle_langzeit_temperatur)
-        server.onPath("/kurzzeitTemperatur_json", self.web_handler.handle_kurzzeit_temperatur)
-        server.onPath("/kurzzeitTemperatur_xml", self.web_handler.handle_xml)
-        # server.onNotFound(self.web_handler.handle_not_found)
-    
+
+        # API-Endpunkte registrieren
+        server.onPath("/api/langzeit", self.web_handler.handle_langzeit_temperatur)
+        server.onPath("/api/kurzzeit", self.web_handler.handle_kurzzeit_temperatur)
+        server.onPath("/api/xml", self.web_handler.handle_xml)
+
+        # 404-Handler registrieren
+        server.onNotFound(self.web_handler.handle_not_found)
+        
+        server.begin(port=80)
+          
     def start(self):
         """Station starten"""
         if not self.init():
@@ -101,7 +109,7 @@ class TemperatureStation:
         if self.led_controller:
             self.led_controller.blink(5, 0.1)  
         
-        print("!---!Temperatur-Station gestoppt!---!was")
+        print("!---!Temperatur-Station gestoppt!---!")
 
 
 

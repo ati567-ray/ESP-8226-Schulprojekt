@@ -7,9 +7,3 @@ import gc
 #import webrepl
 #webrepl.start()
 gc.collect()
-
-#falls er direkt starten soll
-#try:
-#    import ShtServer
-#except Exception as e:
-#    print("Fehler beim Starten des Servers:", e)

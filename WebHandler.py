@@ -20,7 +20,7 @@ class WebHandler:
     
     def handle_root(self, socket, args):
         """Root-Handler für Hauptseite"""
-        temperature = self.data_manager.get_current_temperature()
+      
         
         page = """
         <!doctype html>

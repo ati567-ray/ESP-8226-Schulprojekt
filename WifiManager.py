@@ -6,7 +6,13 @@ class WiFiManager:
         self.connected = False
     
     def connect(self):
-        """WiFi-Verbindung herstellen"""
+        """
+        Stellt eine Verbindung zum WiFi-Netzwerk her
+
+        Rückgabewert:
+        - True, wenn die Verbindung erfolgreich war.
+        - False, wenn ein Fehler aufgetreten ist.
+        """
         try:
             wifiConnect(self.config.WIFI_SSID, self.config.WIFI_PASSWORD)
             self.connected = True

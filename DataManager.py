@@ -1,7 +1,6 @@
 import ujson
 import time
 import gc
-from TMP75 import read_temp
 from ZeitSpeicher import lade_zeitwerte, zeitmessung
 
 class DataManager:
@@ -56,14 +55,6 @@ class DataManager:
     def get_kurzzeit_data(self):
         """Kurzzeit-Daten zurückgeben"""
         return self.kurzzeit_werte
-    
-    def get_current_temperature(self):
-        """Aktuelle Temperatur lesen"""
-        try:
-            return read_temp()
-        except Exception as e:
-            print("Fehler beim Lesen der Temperatur:", e)
-            return None
     
     def update(self):
         """Daten-Update durchführen"""

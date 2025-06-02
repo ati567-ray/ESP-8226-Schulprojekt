@@ -157,6 +157,14 @@ def handle(socket):
         err(socket, "505", "Version Not Supported")
     elif method != "GET":  # Only accept GET request
         err(socket, "501", "Not Implemented")
+        
+    elif path.startswith("/api/"):
+        if path in handlers:
+            handlers[path](socket, args)
+        else:
+            err(sock, "404", "API Not Found")
+        
+    
     elif path in handlers: # Check for registered path
         handlers[path](socket, args)
     elif not path.startswith(docPath): # Check for wrong path

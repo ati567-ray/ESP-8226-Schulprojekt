@@ -1,6 +1,6 @@
 from machine import I2C, Pin
 
-i2c = I2C(scl=Pin(5), sda=Pin(4), freq=100000)  # D1 = GPIO5, D2 = GPIO4
+i2c = I2C(scl=Pin(5), sda=Pin(4), freq=100000)  
 ADDRESS = 0x48
 
 def read_temp():
