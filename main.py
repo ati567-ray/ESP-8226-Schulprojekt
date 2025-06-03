@@ -46,8 +46,6 @@ class TemperatureStation:
     def _setup_webserver(self):
         """Webserver-Routen konfigurieren"""
       
-
-      
         server.onPath("/", self.web_handler.handle_root)
 
         # API-Endpunkte registrieren

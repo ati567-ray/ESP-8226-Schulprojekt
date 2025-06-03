@@ -1,4 +1,4 @@
-from WifiConnect import wifiConnect
+import network, utime
 
 class WiFiManager:
     def __init__(self, config):
@@ -6,23 +6,27 @@ class WiFiManager:
         self.connected = False
     
     def connect(self):
-        """
-        Stellt eine Verbindung zum WiFi-Netzwerk her
-
-        Rückgabewert:
-        - True, wenn die Verbindung erfolgreich war.
-        - False, wenn ein Fehler aufgetreten ist.
-        """
         try:
-            wifiConnect(self.config.WIFI_SSID, self.config.WIFI_PASSWORD)
+            sta_if = network.WLAN(network.STA_IF)
+            if not sta_if.isconnected():
+                print('Verbindungsaufbau...')
+                sta_if.active(True)
+                sta_if.connect(self.config.WIFI_SSID, self.config.WIFI_PASSWORD)
+                while not sta_if.isconnected():
+                    print('.', end='')
+                    utime.sleep_ms(500)
+            print('\nVerbunden mit', self.config.WIFI_SSID)
+            print('IP:', sta_if.ifconfig()[0])
             self.connected = True
-            print("WiFi erfolgreich verbunden\n")
             return True
         except Exception as e:
-            print(f"WiFi-Verbindung fehlgeschlagen: {e}\n")
+            print(f"WiFi-Verbindung fehlgeschlagen: {e}")
             self.connected = False
             return False
+
     
     def is_connected(self):
         """Status der WiFi-Verbindung"""
         return self.connected
+
+    
