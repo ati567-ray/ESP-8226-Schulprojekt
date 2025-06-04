@@ -1,4 +1,4 @@
-import network, utime
+import network, utime, ujson
 
 class WiFiManager:
     def __init__(self, config):
@@ -17,6 +17,17 @@ class WiFiManager:
                     utime.sleep_ms(500)
             print('\nVerbunden mit', self.config.WIFI_SSID)
             print('IP:', sta_if.ifconfig()[0])
+            try:
+                with open("launchsettings.json", "w") as f:
+                    ujson.dump({
+                            "apiUrl": "http://"+sta_if.ifconfig()[0]+"/api/",
+                            "headers": {
+                                "Content-Type": "application/json"
+                            }}, f)
+                print("launchsettings.json erfolgreich gespeichert mit IP:", sta_if.ifconfig()[0],"gespeichert")
+            except Exception as e:
+                print("Fehler beim Speichern von launchsettings.json:", e)
+            
             self.connected = True
             return True
         except Exception as e:

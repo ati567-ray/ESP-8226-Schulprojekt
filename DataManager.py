@@ -56,55 +56,68 @@ class DataManager:
         return "{:04d}-{:02d}-{:02d} {:02d}:{:02d}:{:02d}".format(
             ts[0], ts[1], ts[2], ts[3], ts[4], ts[5]
         )
-
-    def _messung(self, liste, max_anzahl, dateiname):
+  
+    def should_measure(self, last_time, interval):
+        
         """
-        Funktion zum Erfassen und Speichern eines Temperaturwerts
+        Überprüft, ob seit der letzten Messung genügend Zeit vergangen ist
+
         Parameter:
-        - liste (list): Aktuelle Liste der Temperaturwerte (Langzeit- oder Kurzzeitmessung)
-        - max_anzahl (int): Maximale Anzahl an Einträgen, die die Liste enthalten darf
-        - dateiname (str): Name der lokalen JSON-Datei zur Speicherung der Daten
-        Ablauf:
-        - Misst die aktuelle Temperatur
-        - Fügt den neuen Wert der Liste hinzu
-        - Entfernt den ältesten Eintrag, falls die maximale Anzahl überschritten wird
-        - Speichert die aktualisierte Liste inklusive Zeitstempel in der angegebenen JSON-Datei
+        - last_time (int): Zeitstempel der letzten Messung in Millisekunden 
+        - interval (int): Zeitintervall in Millisekunden
+
         Rückgabewert:
-        - True bei erfolgreicher Ausführung.
+        - True, wenn das definierte Intervall überschritten wurde
+        - False, wenn das Intervall noch nicht erreicht wurde
+        """
+        return time.ticks_diff(time.ticks_ms(), last_time) >= interval
+
+      def measure(self, werte_liste, max_werte, datei, last_time_attr):
+        """
+        Führt eine Temperaturmessung durch, speichert den Wert in der JSON-Datei
+        und aktualisiert den Zeitstempel bei erfolgreicher Ausführung.
+
+        Parameter:
+        - werte_liste (list): Liste für die aktuellen Messwerte
+        - max_werte (int): Maximale Anzahl an Einträgen 
+        - datei (str): Ziel-JSON-Datei
+        - last_time_attr (str): Name des Attributs, das den letzten Zeitstempel hält
+        
+        Rückgabewert:
+        - True bei Erfolg, False bei Fehler
         """
         try:
             temperatur = read_temp()
             zeit = self._aktuelle_zeit()
-            liste.append([zeit, temperatur])
-            if len(liste) > max_anzahl:
-                liste.pop(0)
-            self._speichere_werte(liste, dateiname)
+            werte_liste.append([zeit, temperatur])
+            if len(werte_liste) > max_werte:
+                werte_liste.pop(0)
+            self._speichere_werte(werte_liste, datei)
+            setattr(self, last_time_attr, time.ticks_ms()) # dynamisch Attribut zu setzen
             print("Wert gespeichert:", zeit, ",", temperatur, "°")
             return True
         except Exception as e:
             print("Fehler bei Messung:", e)
             return False
 
-    def should_measure_kurzzeit(self):
-        """
-        Überprüft ob genug Zeit seit letzter Messung vergangen ist anhand des Config KURZZEIT_INTERVALLs
-        """      
-        return time.ticks_diff(time.ticks_ms(), self.letzte_kurzzeit) >= self.config.KURZZEIT_INTERVALL
-
-    def should_measure_langzeit(self):           
-        """
-        Überprüft ob genug Zeit seit letzter Messung vergangen ist anhand des Config LANGZEIT_INTERVALLs
-        """ 
-        return time.ticks_diff(time.ticks_ms(), self.letzte_langzeit) >= self.config.LANGZEIT_INTERVALL
-
-    def measure_kurzzeit(self):
-        """
-        Führt die Kurzzeit-Messung aus. Setzt die Zeit neu wenn sie Erfolgreich war
-        """
-        if self._messung(self.kurzzeit_werte, self.config.MAX_KURZZEIT_WERTE, self.config.KURZZEIT_DATEI):
-            self.letzte_kurzzeit = time.ticks_ms()
-            return True
-        return False
+    def update(self):
+        """Daten-Update durchführen"""
+        updated = False
+        
+        # Kurzzeitmessung
+        if self.should_measure(self.letzte_kurzzeit, self.config.KURZZEIT_INTERVALL):
+            if self.measure(self.kurzzeit_werte, self.config.MAX_KURZZEIT_WERTE, 
+                           self.config.KURZZEIT_DATEI, 'letzte_kurzzeit'):
+                updated = True
+                print("Kurzzeitmessung durchgeführt")
+        
+        # Langzeitmessung  
+        if self.should_measure(self.letzte_langzeit, self.config.LANGZEIT_INTERVALL):
+            if self.measure(self.langzeit_werte, self.config.MAX_LANGZEIT_WERTE,
+                           self.config.LANGZEIT_DATEI, 'letzte_langzeit'):
+                updated = True
+            print("Langzeitmessung durchgeführt")
+    
 
     def measure_langzeit(self):
         """
@@ -121,18 +134,4 @@ class DataManager:
     def get_langzeit_data(self):
         return self.langzeit_werte
 
-    def update(self):
-        """Daten-Update durchführen"""
-        updated = False
-        
-        if self.should_measure_kurzzeit():
-            if self.measure_kurzzeit():
-                updated = True
-                print("Kurzzeitmessung durchgeführt")
-        
-        if self.should_measure_langzeit():
-            if self.measure_langzeit():
-                updated = True
-                print("Langzeitmessung durchgeführt")
-        
-        return updated
+    

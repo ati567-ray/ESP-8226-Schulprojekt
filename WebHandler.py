@@ -29,7 +29,7 @@ class WebHandler:
             <meta charset="UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             <title>ESP-FrontEnd</title>
-            <script type="module" crossorigin src="https://ati567-ray.github.io/test123/index-DCcrAdFN.js"></script>
+            <script type="module" crossorigin src="https://ati567-ray.github.io/espfrontend/esp-frontend/dist/assets/index-98SST5nH.js"></script>
             {css}
           </head>
           <body>
