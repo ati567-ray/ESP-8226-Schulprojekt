@@ -72,7 +72,7 @@ class DataManager:
         """
         return time.ticks_diff(time.ticks_ms(), last_time) >= interval
 
-      def measure(self, werte_liste, max_werte, datei, last_time_attr):
+    def measure(self, werte_liste, max_werte, datei, last_time_attr):
         """
         Führt eine Temperaturmessung durch, speichert den Wert in der JSON-Datei
         und aktualisiert den Zeitstempel bei erfolgreicher Ausführung.
