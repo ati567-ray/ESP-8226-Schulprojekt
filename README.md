@@ -12,3 +12,6 @@
 •Erfassen Sie kontinuierlich (z.B. alle 5 Sekunden) Messwerte und nehmen Sie diese in eine Liste auf (unabhängig von http-Client Anfragen). Dabei sollen nur die letzten z.B. 10 Messwerte vorgehalten werden.                                                     ✓  
 •Die gesammelten Messwerte sollen per JSON bzw. XML abrufbar sein.                                                                                                                                                                                                   ✓ 
 •Geben Sie die gesammelten Messwerte als Tabelle auf der Webseite aus.                                                                                                                                                                                                ✓  
+
+
+Wir sollten eine README-Datei mit Setup-Anweisungen erstellen.
