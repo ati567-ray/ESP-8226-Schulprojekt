@@ -15,3 +15,10 @@
 
 
 Wir sollten eine README-Datei mit Setup-Anweisungen erstellen.
+
+Video Ideen:
+Demonstration der verschiedenen API-Endpunkte
+Zeigen der LED-Aktivitäten
+Darstellung der unterschiedlichen Datenformate
+Erklärung der Softwarearchitektur
+Live-Demo der Temperaturmessungen
