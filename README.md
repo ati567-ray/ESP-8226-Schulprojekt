@@ -14,7 +14,7 @@
 •Geben Sie die gesammelten Messwerte als Tabelle auf der Webseite aus.                                                                                                                                                                                                ✓  
 
 
-Wir sollten eine README-Datei mit Setup-Anweisungen erstellen.
+Wir sollten eine README-Datei mit Setup-Anweisungen erstellen.                        ✓  
 
 Video Ideen:
 Demonstration der verschiedenen API-Endpunkte
