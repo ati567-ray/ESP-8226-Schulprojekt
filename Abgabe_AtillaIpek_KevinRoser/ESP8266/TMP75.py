@@ -4,6 +4,7 @@ i2c = I2C(scl=Pin(5), sda=Pin(4), freq=100000)
 ADDRESS = 0x48
 
 def read_temp():
+    """ Liest die Temperatur über den I2C-Bus aus und returned den Wert gerundet zurück"""
     try:
         raw = i2c.readfrom_mem(ADDRESS, 0x00, 2)
 

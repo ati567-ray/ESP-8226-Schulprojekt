@@ -1,7 +1,7 @@
 class Config:
     # WiFi-Einstellungen
-    WIFI_SSID = "gsog-iot"
-    WIFI_PASSWORD = "IOT_Projekt_BFK-S_2022"
+    WIFI_SSID = "gfv-edv"  # gsog-iot
+    WIFI_PASSWORD = "88DujKmT4"  # IOT_Projekt_BFK-S_2022
     
     # LED-Pin
     LED_PIN = 2

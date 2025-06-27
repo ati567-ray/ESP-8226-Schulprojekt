@@ -6,6 +6,7 @@ class WiFiManager:
         self.connected = False
     
     def connect(self):
+        """Connected sich mit der SSID und dem Password aus der Config.py, bei Erfolg wird die IP in die launchsettings.json geschrieben, so dass das Frontend dynamisch die IP auslesen kann."""
         try:
             sta_if = network.WLAN(network.STA_IF)
             if not sta_if.isconnected():

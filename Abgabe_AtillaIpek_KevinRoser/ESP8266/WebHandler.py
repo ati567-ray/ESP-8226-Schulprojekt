@@ -8,7 +8,6 @@ class WebHandler:
         self.led_controller = led_controller
     
     def get_css(self):
-        """CSS-Styles zurückgeben"""
         return """
         <style>
             body {
@@ -111,5 +110,4 @@ class WebHandler:
     
     def handle_not_found(self, socket):
         """404-Handler"""
-        
         server.err(socket, "404", "File Not Found")

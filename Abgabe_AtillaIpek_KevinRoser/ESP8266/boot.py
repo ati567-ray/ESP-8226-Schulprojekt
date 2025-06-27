@@ -4,9 +4,8 @@
 import os, machine
 #os.dupterm(None, 1) # disable REPL on UART(0)
 import gc
-#import webrepl
+import main
+main.main()
+
 #webrepl.start()
 gc.collect()
-
-from main import main
-main()

@@ -7,11 +7,9 @@ class LEDController:
         self.led.value(1)  
     
     def on(self):
-        """LED einschalten"""
         self.led.value(0)
     
     def off(self):
-        """LED ausschalten"""
         self.led.value(1)
     
     def blink(self, times=1, duration=0.5):
@@ -23,5 +21,4 @@ class LEDController:
             time.sleep(duration)
     
     def signal_activity(self):
-        """Kurzes Aktivitätssignal"""
         self.blink(1, 0.5)
