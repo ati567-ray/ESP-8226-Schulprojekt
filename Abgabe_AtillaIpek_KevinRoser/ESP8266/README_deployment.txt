@@ -1,3 +1,6 @@
+Alle ESP-Dateien so wie sie sind auf geflasheten ESP uploaden.
+Speichern.
+
 __________________________________________________________
 
 WLAN-Zugang (SSID/Passwort in Config.py konfigurierbar) -
@@ -5,18 +8,18 @@ WLAN-Zugang (SSID/Passwort in Config.py konfigurierbar) -
 Beim Neustart wird boot.py automatisch ausgeführt und ruft main.main() auf -
 
 
-Nach erfolgreichem Start verbindet sich das Gerät mit dem in Config.py konfigurierten WLAN.
+Nach erfolgreichem Start verbindet sich das Gerät mit dem in Config.py konfigurierten WLAN und der Webserver ist dann im gleichen Netzwerk auch ansprechbar.
 __________________________________________________________
 
 Verfügbare Endpunkte:
 
-/ – Root-Seite
+*/ – Root-Seite
 
-/api/langzeit – Langzeitdaten als JSON
+*/api/langzeit – Langzeitdaten als JSON
 
-/api/kurzzeit – Kurzzeitdaten als JSON
+*/api/kurzzeit – Kurzzeitdaten als JSON
 
-/api/xml – Temperaturdaten im XML-Format
+*/api/xml – Temperaturdaten im XML-Format
 __________________________________________________________
 
 Konfigurierbare Parameter (aus Config.py)
@@ -33,6 +36,8 @@ __________________________________________________________
 
 Hinweise!!!
 Wenn keine WLAN-Verbindung möglich ist, startet der Webserver nicht.
+
+Wenn kein Internetzugang vorhanden ist oder der Link outdated ist wird das Frontend nicht funktionieren. (Im WebHandler.py der Link)
 
 Die LED blinkt beim Startvorgang zur Bestätigung.
 
